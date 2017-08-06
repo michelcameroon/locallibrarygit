@@ -25,3 +25,26 @@ def index(request):
         'index.html',
         context={'num_books':num_books,'num_instances':num_instances,'num_instances_available':num_instances_available,'num_authors':num_authors},
     )
+
+
+from django.views import generic
+
+#class BookListView(generic.ListView):
+#    model = Book
+
+
+class BookListView(generic.ListView):
+    model = Book
+
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(BookListView, self).get_context_data(**kwargs)
+        # Get the blog from id and add it to the context
+        context['some_data'] = 'This is just some data'
+        return context
+
+
+class BookDetailView(generic.DetailView):
+    model = Book
