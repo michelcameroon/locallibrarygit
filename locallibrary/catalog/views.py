@@ -48,3 +48,34 @@ class BookListView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
+
+
+
+class AuthorListView(generic.ListView):
+    model = Author
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(AuthorListView, self).get_context_data(**kwargs)
+        # Get the blog from id and add it to the context
+        context['some_data'] = 'This is just some data'
+        return context
+
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
+
+    def Author_detail_view(request,pk):
+        try:
+            author_id=Author.objects.get(pk=pk)
+        except Author.DoesNotExist:
+            raise Http404("Author does not exist")
+
+        #book_id=get_object_or_404(Book, pk=pk)
+    
+        return render(
+            request,
+            'catalog/author_detail.html',
+            context={'author':author_id,}
+        )
+
